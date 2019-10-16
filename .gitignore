@@ -1,0 +1,11 @@
+*.o
+*.a
+*.out
+*.tmp
+*.espfs
+.metadata/
+.settings/
+*.map
+firmware/
+build/
+libesphttpd/espfs/mkespfsimage/mkespfsimage.exe

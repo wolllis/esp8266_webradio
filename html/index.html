@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<meta http-equiv='Content-type' content='text/html; charset=utf-8' />
+		<meta name='viewport' content='width=device-width' />
+		<title>WEBRADIO</title>
+	</head>
+	<body>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<iframe name="hiddenFrame" style="position:absolute; top:-10px; left:-10px; width:1px; height:1px;"></iframe>
+			<div class='main'>
+				<h1>WEBRADIO</h1>
+				<h2>Software Version: %Version%%Debug%</h2>
+				<div class='spalte1'>
+					<fieldset>
+						<legend>STREAM</legend>
+						<form method="post" action="stream.cgi" target="hiddenFrame">
+							<p><select name='stream'>
+								<option value='0' %StreamSelected_0%>%StreamName_0%</option>
+								<option value='1' %StreamSelected_1%>%StreamName_1%</option>
+								<option value='2' %StreamSelected_2%>%StreamName_2%</option>
+							</select></p>
+							<input type="submit" name="stream_control" value="PLAY">
+							<input type="submit" name="stream_control" value="STOP">
+						</form>
+					</fieldset>
+					<fieldset>
+						<legend>PLAYBACK</legend>
+						<form method="post" action="playback.cgi" target="hiddenFrame">
+					    	<p><input type="checkbox" name="autoplay" value="1" %autoplay%> Play on startup</p>
+							<input type="submit" name="stream_control" value="SAVE">
+						</form>
+					</fieldset>
+					<fieldset>
+						<legend>VOLUME</legend>
+						<form method="post" action="volume.cgi" target="hiddenFrame">
+							<p><div>
+								<input class="slider" type="range" name="volume" min="0" max="100" value="%volume%" step="1" onchange="volumevalue.value=value"/>
+								<output id="volumevalue">%volume%</output>%%
+							</div></p>
+							<input type="submit" name="stream_control" value="SAVE">
+						</form>
+					</fieldset>
+				</div>
+				<div class='spalte2'>
+					<fieldset>
+						<legend>ENHANCER</legend>
+						<form method="post" action="enhancer.cgi" target="hiddenFrame">
+							<p><div>
+								TREBLE AMPLITUDE
+								<input class="slider" type="range" name="treble_amp" min="-8" max="7" value="%treble_amp%" step="1" onchange="treble_amp_value.value=value"/>
+								<output id="treble_amp_value">%treble_amp%</output>
+							</div></p>
+							<p><div>
+								TREBLE LIMIT
+								<input class="slider" type="range" name="treble_lim" min="0" max="15" value="%treble_lim%" step="1" onchange="treble_lim_value.value=value"/>
+								<output id="treble_lim_value">%treble_lim%</output>000Hz
+							</div></p>
+							<p><div>
+								BASS AMPLITUDE
+								<input class="slider" type="range" name="bass_amp" min="0" max="15" value="%bass_amp%" step="1" onchange="bass_amp_value.value=value"/>
+								<output id="bass_amp_value">%bass_amp%</output>
+							</div></p>
+							<p><div>
+								BASS LIMIT
+								<input class="slider" type="range" name="bass_lim" min="0" max="15" value="%bass_lim%" step="1" onchange="bass_lim_value.value=value"/>
+								<output id="bass_lim_value">%bass_lim%</output>0Hz
+							</div></p>
+							<input type="submit" name="stream_control" value="SAVE">
+						</form>
+					</fieldset>
+					<fieldset>
+						<legend>SPARTIAL LEVEL</legend>
+						<form method="post" action="spartial.cgi" target="hiddenFrame">
+							<p><input type='radio' name='SpartialProcessingLevel' value='0' %SpartialProcessingLevel_Off%/>OFF</p>
+							<p><input type='radio' name='SpartialProcessingLevel' value='1' %SpartialProcessingLevel_Minimal%/>MINIMAL</p>
+							<p><input type='radio' name='SpartialProcessingLevel' value='2' %SpartialProcessingLevel_Normal%/>NORMAL</p>
+							<p><input type='radio' name='SpartialProcessingLevel' value='3' %SpartialProcessingLevel_Extreme%/>EXTREME</p>
+							<input type="submit" name="spartial" value="SAVE">
+						</form>
+					</fieldset>
+					<fieldset>
+						<legend>WIFI</legend>
+						<p><label><a href="/wifi">Select Accesspoint</a></label></p>
+					</fieldset>
+				</div>
+			</div>
+		<div class='spalte3'>wolllis, 2019</div>
+	</body>
+</html>

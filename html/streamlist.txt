@@ -1,0 +1,3 @@
+Homestream;http://192.168.188.114:8000/stream.mp3
+Frequence3;http://hd.stream.frequence3.net/frequence3-256-z2backup.mp3
+1live;http://wdr-edge-2019.fra-lg.cdn.addradio.net/wdr/1live/live/mp3/128/stream.mp3

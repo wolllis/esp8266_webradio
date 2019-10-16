@@ -1,0 +1,94 @@
+body 
+{
+	font-variant: small-caps;
+	background-color: black;
+	font-family: arial, sans-serif;
+	font-size: 0.9em;
+	color: white;
+}
+
+p{margin: 0.35em 0;}
+legend{font-size: 1.5em;}
+fieldset{margin-bottom: 2em;}
+
+H1 
+{
+	padding:0.5em 1em;
+	font-size: 20px;
+	color: white;
+	font-weight:bold;
+	letter-spacing: 8px;
+	border: 2px solid #FFFFFF;
+	text-align: center;
+}
+
+H2 
+{
+	font-family: arial, sans-serif;
+	color: white;
+	font-size: 10px;
+	text-align: center;
+}
+
+input 
+{
+	border: 1px solid white;
+	background-color: black;
+	color: white;
+}
+
+input[type='submit'] 
+{
+	padding: 0.5em 1em;
+}
+
+input.zeit 
+{
+	width: 50px;
+	font-size: 16px;
+	text-align: center;
+	margin-right: 1em;
+	margin-left: 0.5em;
+}
+
+.copyright 
+{
+	margin-top: 3em;
+	color: gray;
+	font-size: 10px;
+	text-align: center;
+}
+
+.main {}
+.spalte2 {}
+
+.post 
+{
+	margin-top: 2em;
+	clear: both;
+	text-align: center;
+}
+
+@media (min-width: 800px) 
+{
+	.spalte1 {float: left;}
+	.spalte2 {float: right;}
+	.main {width: 665px; margin: 0 auto;}
+	fieldset {width: 300px;}
+}
+
+@media (max-width: 799px) 
+{
+	.spalte1 {}
+	.main {margin: 0 5%;}
+}
+
+
+
+.icon {
+	background-image: url("icons.png");
+	background-color: transparent;
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+}

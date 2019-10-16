@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<meta http-equiv='Content-type' content='text/html; charset=utf-8' />
+		<meta name='viewport' content='width=device-width' />
+		<title>WORDCLOCK</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script type="text/javascript" src="140medley.min.js"></script>
+		<script type="text/javascript">
+			var xhr=j();
+			function getStatus() {
+				xhr.open("GET", "connstatus.cgi");
+				xhr.onreadystatechange=function() {
+					if (xhr.readyState==4 && xhr.status>=200 && xhr.status<300) {
+						var data=JSON.parse(xhr.responseText);
+						if (data.status=="idle") {
+							$("#status").innerHTML="Bereite Verbindung vor...";
+							window.setTimeout(getStatus, 1000);
+						} else if (data.status=="success") {
+							$("#status").innerHTML="Verbunden! IP erhalten: "+data.ip+". Wenn sie sich im selben Netzwerk befinden können Sie das Webinterface nun <a href=\"http://"+data.ip+"/\">hier</a> erreichen.";
+						} else if (data.status=="working") {
+							$("#status").innerHTML="Verbinde mit ausgewählter Basisstation...";
+							window.setTimeout(getStatus, 1000);
+						} else if (data.status=="fail") {
+							$("#status").innerHTML="Verbindung fehlgeschlagen. Stellen Sie sicher, dass das korrekte Passwort verwendet wurde.<br /><a href=\"wifi.tpl\">Zur�ck</a>";
+						}
+					}
+				}
+				xhr.send();
+			}
+
+			window.onload=function(e) {
+				getStatus();
+			};
+		</script>
+	</head>
+	<body>
+		<form method='post'>
+			<div class='main'>
+				<h1>STATUS</h1>
+				<div class='spalte1'>
+					<fieldset>
+						<p><div id="status">...</div></p>
+					</fieldset>
+				</div>
+			</div>
+		</form>
+	</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<meta http-equiv='Content-type' content='text/html; charset=utf-8' />
+		<meta name='viewport' content='width=device-width' />
+		<title>WORDCLOCK</title>
+		<script type="text/javascript" src="140medley.min.js"></script>
+		<script type="text/javascript">
+			var xhr=j();
+			var currAp="%currSsid%";
+
+			function createInputForAp(ap) {
+				if (ap.essid=="" && ap.rssi==0) return;
+				var div=document.createElement("div");
+				div.id="apdiv";
+				var rssi=document.createElement("div");
+				var rssiVal=-Math.floor(ap.rssi/51)*32;
+				rssi.className="icon";
+				rssi.style.backgroundPosition="0px "+rssiVal+"px";
+				var encrypt=document.createElement("div");
+				var encVal="-64"; //assume wpa/wpa2
+				if (ap.enc=="0") encVal="0"; //open
+				if (ap.enc=="1") encVal="-32"; //wep
+				encrypt.className="icon";
+				encrypt.style.backgroundPosition="-32px "+encVal+"px";
+				var input=document.createElement("input");
+				input.type="radio";
+				input.name="essid";
+				input.value=ap.essid;
+				input.onclick = function() { document.getElementById("radio-choice-1").style.display='none'; };
+				if (currAp==ap.essid) input.checked="1";
+				input.id="opt-"+ap.essid;
+				var label=document.createElement("label");
+				label.htmlFor="opt-"+ap.essid;
+				label.textContent=ap.essid;
+				div.appendChild(input);
+				div.appendChild(rssi);
+				div.appendChild(encrypt);
+				div.appendChild(label);
+				return div;
+			}
+
+			function getSelectedEssid() {
+				var e=document.forms.wifiform.elements;
+				for (var i=0; i<e.length; i++) {
+					if (e[i].type=="radio" && e[i].checked) return e[i].value;
+				}
+				return currAp;
+			}
+
+
+			function scanAPs() {
+				xhr.open("GET", "wifiscan.cgi");
+				xhr.onreadystatechange=function() {
+					if (xhr.readyState==4 && xhr.status>=200 && xhr.status<300) {
+						var data=JSON.parse(xhr.responseText);
+						currAp=getSelectedEssid();
+						if (data.result.inProgress=="0" && data.result.APs.length>1) {
+							$("#aps").innerHTML="";
+							for (var i=0; i<data.result.APs.length; i++) {
+								if (data.result.APs[i].essid=="" && data.result.APs[i].rssi==0) continue;
+								$("#aps").appendChild(createInputForAp(data.result.APs[i]));
+							}
+							window.setTimeout(scanAPs, 20000);
+						} else {
+							window.setTimeout(scanAPs, 1000);
+						}
+					}
+				}
+				xhr.send();
+			}
+
+
+			window.onload=function(e) {
+				scanAPs();
+			};
+			
+			function display() 
+			{
+				document.getElementById("radio-choice-1").style.display='block';
+			}
+			
+		</script>
+	</head>
+	<body>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<form name="wifiform" action="connect.cgi" method="post">
+			<div class='main'>
+				<h1>WLAN</h1>
+				<div class='spalte1'>
+					<fieldset>
+						<legend>INFO</legend>
+						<p>Modus: %Wifi_Mode%</p>
+						<p>Basisstation: %Wifi_SSID%</p>
+						<p>Status: %Wifi_STATUS%</p>
+						<p>Eigene IP: %Wifi_IP%</p>
+						<p>Eigene MAC: %Wifi_MAC%</p>
+					</fieldset>
+				</div>
+				<div class='spalte2'>
+					<fieldset>
+						<legend>STATIONEN</legend>
+						<div id="aps"></div>
+						<div id="apdiv">
+							<input type="radio" name="essid" onclick="display()" value="$"/>Verstecktes Netzwerk
+						</div>	
+						<br>
+						<p>
+							<label id="radio-choice-1" style="display:none">
+								SSID Name: <input type="text" name="essid_hidden"> 
+							</label>
+						</p>
+						<p>
+							<label>
+								Passwort: <input type="password" name="passwd"> 
+							</label>
+						</p>
+								<input type="submit" name="connect" value="Speichern">
+					</fieldset>
+					
+
+				</div>
+			</div>
+		</form>
+		<div class='post'>
+			<div class='copyright'>wolllis, 2018</div>
+		</div>
+	</body>
+</html>
+
